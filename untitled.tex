@@ -1,3 +1,301 @@
+% Created 2016-01-29 Fri 14:43
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{Uwe Brauer}
+\date{\today}
+\title{}
+\hypersetup{
+ pdfauthor={Uwe Brauer},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 25.1.50.1 (Org mode 8.3.1)}, 
+ pdflang={English}}
+\begin{document}
+
+\tableofcontents
+
+\section{Collaboration via the Net, Latex files.}
+\label{sec:orgheadline1}
+
+For decades software developers have been using version control
+programs and servers which hosted these programs. Scientists still are
+mostly relying on email and so do not benefit from those new tools.
+These notes are intended to discuss some alternatives.
+
+\section{Useful Latex packages}
+\label{sec:orgheadline2}
+
+
+The following style files  are very handy and should be used
+independently of a version control system or sharing latex files via a
+server. 
+
+
+\begin{itemize}
+\item subfiles: Idea you want to split up the document into master
+and children, such that different authors can work
+independently on different children (sections) without much
+hassle. It is an extension of input or include with one
+important difference you can run the children files
+individually. See  \url{https://en.wikibooks.org/wiki/LaTeX/Modular_Documents}
+
+\item rcsinfo: allows to insert a header or footer which displays
+author, date and version of the document.
+
+\item todonotes, this is a generalisation of marginpar, that is it
+adds (numbered) notes at the margins, but moreover has  the
+following extensions. A list of notes at the beginning. A line
+which is drawn from the note to the text in the document,
+something Openoffice and MS word offer for a long time. Here is
+an example of code.
+\end{itemize}
+
+\begin{verbatim}
+\usepackage[colorinlistoftodos, textwidth=4cm, shadow]{todonotes}
+
+\definecolor{GreenYellow}{rgb}{0.678431,1.000000,0.184314}
+\newcounter{todocounter}
+\newcommand{\todonum}[2][]
+{\stepcounter{todocounter}\todo[#1]{\thetodocounter: #2}}
+
+\newcounter{ubcomment}
+
+\newcommand{\ubcomment}[2][]{%
+\refstepcounter{ubcomment}%
+{%
+\todo[linecolor=black,backgroundcolor={green!40!},size=\footnotesize]{%
+\textbf{Fixme: UB [\uppercase{#1}\theubcomment]:}~#2}%
+}}
+
+\newcommand{\ubcommentinline}[2][]{%
+\refstepcounter{ubcomment}%
+{%
+\todo[linecolor=black,inline,backgroundcolor={green!40!},size=\footnotesize]{%
+\textbf{Fixme: UB [\uppercase{#1}\theubcomment]:}~#2}%
+}}
+\end{verbatim}
+
+
+\section{Useful external programs.}
+\label{sec:orgheadline3}
+
+Latex diff is very useful for comparing latex documents and generating
+PDF (dvi) files which  display the changes and deletion. It is also
+compatible with revision control systems, such as RCS, git and
+mercurial. See for example:
+\url{https://www.sharelatex.com/blog/2013/02/16/using-latexdiff-for-marking-changes-to-tex-documents.html}
+
+Or 
+
+\url{https://github.com/ftilmann/latexdiff/blob/master/README}
+
+This way a PDF file looks a lot as a Office document with Track
+Version on.
+
+\section{Server(client): Dropbox etc}
+\label{sec:orgheadline4}
+
+Instead of sending documents by email one could use the cloud,
+services such as dropbox. However there is a danger to overwrite an
+already modified and that is why this should be best combined with
+some version control system.
+
+
+
+\section{Version control}
+\label{sec:orgheadline14}
+
+The benefit from version control is clear, one controls the history of
+changes and can roll back and forward between versions. So no need to
+keep a bunch of files, with say a suffix which corresponds to the
+relevant start. This comes in handy when using programs such as
+latexdiff. However a word of warning: in order to meaningfully compare
+or visit older version, one needs to write meaningful ChangLogs which
+in practice requires some discipline.
+\subsection{RCS}
+\label{sec:orgheadline5}
+Historically (and still in use) the first was/is RCS, which is well
+suited for one file. 
+\subsection{CVS/Subversion}
+\label{sec:orgheadline6}
+
+\subsection{Git/Hg}
+\label{sec:orgheadline7}
+
+However if more files are involved git or
+mercurial (hg) are the candidates of choices. Mercurial is a bit
+easier to use, runs on more platforms (git runs natively only on
+linux/unix), and has a nice graphical interface.
+
+\subsection{Basic problem for \LaTeX{}+Version control.}
+\label{sec:orgheadline8}
+
+The programs which indicates the differences in various version are
+based on changes in lines not in words (since wordwise diffs are very
+resource consuming). Latexdiff is an entirely different sort of
+program. Now unfortunately different latex editors break lines
+differently and therefore indicate changes where there might be none.
+Ideally everybody would use the same editor (Emacs) and the problem
+would not exist. One idea to circumvent that problem would be
+\emph{fmtlatex} which formats and indents latex documents nicely. Another
+option is to use so called \emph{branches} in the version control system.
+
+\subsection{The server (bitbucket)}
+\label{sec:orgheadline9}
+
+It is recommendable to use a server, where one can \emph{push} its changes
+and \emph{pull} them if needed. There are a couple of good free ones. I
+recommend \emph{bitbucket} because it works with mercurial. One can get a
+free account and set up a private \emph{repositorio}. There business model
+is that it allows 5 collaborator's for a private repositorio. If
+groups which of collaborators which exceed this number have to pay. 
+
+\subsection{Setting up an account on bitbucket.}
+\label{sec:orgheadline10}
+
+So the first step is to open an account on \emph{bitbucket}. I have one,
+\textbf{kalthad} is the user name.
+
+\subsection{Setting it up just in case.}
+\label{sec:orgheadline11}
+
+It is best to have a file in its home directory called .hgrc which
+contains
+
+
+\begin{verbatim}
+# example config (see "hg help config" for more info)
+
+[ui]
+# name and email, e.g.
+# username = Jane Doe <jdoe@example.com>
+# for xemacs commits
+# username = Uwe Brauer <oub@xemacs.org>
+username = Uwe Brauer <oub@mat.ucm.es>
+[trusted]
+users = oub, sec076
+
+[phases]
+#publish = False
+
+[extensions]
+rebase =
+shelve =
+largefiles =
+purge =
+histedit = 
+progress =
+
+
+color =
+
+hgext.convert=
+keyword = 
+mq = 
+[keyword]
+**.tex =
+#demo.txt = /home/oub/tmp2/eulerpoissonstatic/section-0001.tex
+[keywordmaps]
+Author = {author|user}
+Date = {date|utcdate}
+Header = {root}/{file},v {node|short} {date|utcdate} {author|user}
+Id = {file|basename},v [Br:{branches}]{latesttag}[Hg:{rev}] {date|utcdate} {author|user} Exp {author|user}
+RCSFile = {file|basename},v
+RCSfile = {file|basename},v
+Revision = {node|short}
+Source = {root}/{file},v
+
+
+
+
+[paths]
+default = https://kalthad@bitbucket.org/kalthad/eulerpoissonstatic
+
+
+[hostfingerprints]
+bitbucket.org = 46:de:34:e7:9b:18:cd:7f:ae:fd:8b:e3:bc:f4:1a:5e:38:d7:ac:24
+
+
+[alias]
+lg = log --template "{label('custom.rev', rev)}\t{label('custom.phase',phase)}\t{label('custom.tag',tags)}\t{desc|firstline} {label('custom.age', date|age)} {label('custom.user', author|user)}\n"
+
+
+
+[color]
+mode = ansi
+custom.rev = yellow
+custom.phase = bold
+custom.user = cyan
+custom.age = bold
+custom.tag = bold yellow
+status.modified = magenta bold
+status.added = green bold
+status.removed = red bold
+status.deleted = cyan bold
+status.unknown = blue bold
+status.ignored = black bold
+
+
+qseries.applied = blue bold underline
+qseries.unapplied = black bold
+qseries.missing = red bold
+diff.diffline = bold
+diff.extended = cyan bold
+diff.file_a = red bold
+diff.file_b = green bold
+diff.hunk = magenta
+diff.deleted = red
+diff.inserted = green
+diff.changed = white
+diff.trailingwhitespace = bold red_background
+
+
+[hooks]
+changegroup.diffstat=hg diff --stat -r "p1($HG_NODE)" -r "max(descendants($HG_NODE))"
+outgoing=hg diff --stat -r "p1($HG_NODE)" -r "max(descendants($HG_NODE))"
+post-tag.kw = $HG kwexpand
+\end{verbatim}
+
+\subsection{Working flow.}
+\label{sec:orgheadline12}
+
+\begin{itemize}
+\item user sign up in bitbucket.
+\item User install mercurial mercurial,
+\item and tortoisehg, the nice graphical interface.
+\item a repo is generated with a easy to remember name, say
+RelGlatzeNL, so the complete path is \url{https://bitbucket.org/kalthad/relglatzenl}.
+\item an invitation to collaborators is sent.
+\item collaborators clone the repo to their local machine. Either
+using the command line, or tortoisehg. Command line command
+is \emph{hg clone \url{https://bitbucket.org/kalthad/relglatzenl}.}
+\item 
+\end{itemize}
+
+
+
+\subsection{Sofware For Mac users}
+\label{sec:orgheadline13}
+\begin{itemize}
+\item mercurial:   \url{https://www.mercurial-scm.org/downloads}
+\item tortoisehg: \url{http://tortoisehg.bitbucket.org/}
+\end{itemize}
+\end{document}
+
 \textit{Oh, an empty article!} 
 
 You can get started by \textbf{double clicking} this text block and begin editing. You can also click the \textbf{Insert} button below to add new block elements. Or you can \textbf{drag and drop an image} right onto this text. Happy writing!
