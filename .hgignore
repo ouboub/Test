@@ -1,0 +1,32 @@
+syntax: glob
+*.aux
+*.backup
+*.bbl
+*.bib
+*.blg
+*.brf
+*.dvi
+*.el
+*.glo
+*.idx
+*.ilg
+*.ind
+*.log
+*.mw
+*.nav
+*.nlo
+*.nls
+*.out
+*.pdf
+*.synctex.gz
+*.tdo
+*.toc
+
+
+DIFF/**
+REV/** 
+auto/**
+*~
+
+syntax: regexp
+(.*/)?\#[^/]*\#$
